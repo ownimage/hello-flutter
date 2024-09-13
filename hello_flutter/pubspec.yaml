@@ -89,7 +89,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
-http_proxy:
-  git:
-    url: https://github.com/dart-lang/http_proxy.git
-    ref: master
