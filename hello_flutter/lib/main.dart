@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'pages/django.dart';
 import 'pages/books.dart';
@@ -59,6 +61,35 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  Django djangoPage = const Django();
+  BookList booksPage = const BookList();
+
+
+  @override
+  void initState() {
+    super.initState();
+    List<Widget> pageList = [djangoPage, booksPage];
+
+    // Schedule the navigation to Page2 after 5 seconds
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      Widget page = pageList[_counter % pageList.length];
+      if (_counter == 0) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      }
+      else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => page),
+        );
+      }
+      _counter
+      ++;
+    });
+  }
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -73,14 +104,14 @@ class _MyHomePageState extends State<MyHomePage> {
   void _navigateToDjangoPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const Django()),
+      MaterialPageRoute(builder: (context) => djangoPage),
     );
   }
 
   void _navigateToBooksPage() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const BookList()),
+      MaterialPageRoute(builder: (context) => booksPage),
     );
   }
 
@@ -97,7 +128,10 @@ class _MyHomePageState extends State<MyHomePage> {
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
@@ -126,13 +160,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .headlineMedium,
             ),
           ],
         ),
       ),
       floatingActionButton:
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
         FloatingActionButton(
           heroTag: 'increment',
           onPressed: _incrementCounter,
@@ -148,7 +185,13 @@ class _MyHomePageState extends State<MyHomePage> {
             heroTag: 'books',
             onPressed: _navigateToBooksPage,
             tooltip: 'Books',
-            child: const Icon(Icons.account_balance_wallet_sharp)),      ]), // This trailing comma makes auto-formatting nicer for build methods.
+            child: const Icon(Icons.account_balance_wallet_sharp)),
+        FloatingActionButton(
+            heroTag: 'timer',
+            onPressed: _navigateToBooksPage,
+            tooltip: 'Timer',
+            child: const Icon(Icons.punch_clock)),
+      ]), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

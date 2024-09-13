@@ -21,7 +21,7 @@ class _BookListState extends State<BookList> {
   }
 
   Future<List<Book>> fetchBooks() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/hello/'));
+    final response = await http.get(Uri.parse('http://192.168.1.168:8000/hello/'));
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
@@ -34,6 +34,9 @@ class _BookListState extends State<BookList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Books Page'),
+      ),
         body: FutureBuilder<List<Book>>(
           future: futureBooks,
           builder: (context, snapshot) {
